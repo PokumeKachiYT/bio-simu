@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://s6alqumsnfcn"]
+
+[ext_resource type="PackedScene" uid="uid://d0j2kquqh8hx0" path="res://assets/models/mitochondrion.blend" id="1_cunvc"]
+
+[node name="mitochondrion" instance=ExtResource("1_cunvc")]

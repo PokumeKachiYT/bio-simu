@@ -1,0 +1,101 @@
+[gd_scene load_steps=9 format=3 uid="uid://bphyqy866wwsm"]
+
+[ext_resource type="Script" path="res://scripts/ViewportInput.gd" id="1_1p3fl"]
+[ext_resource type="Script" path="res://scripts/Panning.gd" id="1_48j0d"]
+[ext_resource type="PackedScene" uid="uid://s6alqumsnfcn" path="res://scenes/mitochondrion.tscn" id="2_typ2a"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gh6fy"]
+bg_color = Color(0.0235294, 0.0431373, 0.109804, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_m1vqu"]
+sky_top_color = Color(1, 1, 1, 1)
+sky_horizon_color = Color(1, 1, 1, 1)
+ground_bottom_color = Color(1, 1, 1, 1)
+
+[sub_resource type="Sky" id="Sky_86bdg"]
+sky_material = SubResource("ProceduralSkyMaterial_m1vqu")
+
+[sub_resource type="Environment" id="Environment_6lt8k"]
+sky = SubResource("Sky_86bdg")
+ambient_light_source = 2
+ambient_light_color = Color(0.388235, 0.388235, 0.388235, 1)
+tonemap_mode = 3
+ssao_radius = 16.0
+ssao_intensity = 16.0
+glow_enabled = true
+glow_normalized = true
+glow_intensity = 1.0
+glow_strength = 0.25
+glow_bloom = 0.25
+glow_blend_mode = 0
+glow_hdr_threshold = 4.0
+glow_hdr_scale = 4.0
+glow_hdr_luminance_cap = 256.0
+glow_map_strength = 1.0
+fog_enabled = true
+
+[sub_resource type="World3D" id="World3D_pyank"]
+environment = SubResource("Environment_6lt8k")
+
+[node name="Main" type="Node2D"]
+
+[node name="Camera" type="Camera2D" parent="."]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -960.0
+offset_top = -540.0
+offset_right = -920.0
+offset_bottom = -500.0
+
+[node name="Background" type="Panel" parent="Control"]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 90.0
+offset_right = 1760.0
+offset_bottom = 990.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_gh6fy")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Control"]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 90.0
+offset_right = 1760.0
+offset_bottom = 990.0
+script = ExtResource("1_1p3fl")
+
+[node name="SubViewport" type="SubViewport" parent="Control/SubViewportContainer"]
+own_world_3d = true
+world_3d = SubResource("World3D_pyank")
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1600, 900)
+render_target_update_mode = 4
+
+[node name="CameraHandler" type="Node3D" parent="Control/SubViewportContainer/SubViewport"]
+script = ExtResource("1_48j0d")
+
+[node name="CameraHandler2" type="Node3D" parent="Control/SubViewportContainer/SubViewport/CameraHandler"]
+
+[node name="Camera" type="Camera3D" parent="Control/SubViewportContainer/SubViewport/CameraHandler/CameraHandler2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20)
+current = true
+
+[node name="Mitochondrion" parent="Control/SubViewportContainer/SubViewport" instance=ExtResource("2_typ2a")]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, -3.5, 0, 0)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Control/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 25, 25)
+light_bake_mode = 1
+omni_range = 4096.0
+omni_attenuation = 0.450626
