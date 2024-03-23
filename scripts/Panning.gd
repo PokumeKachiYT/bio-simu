@@ -24,7 +24,7 @@ func _process(delta):
 	Camera.transform.origin.z = clamp(Camera.transform.origin.z,2.5,45.0)
 
 func _input(event):
-	if event is InputEventMouseMotion and Input.is_action_pressed('pan'):
+	if event is InputEventMouseMotion and Input.is_action_pressed('rotate'):
 		#rotation_degrees.y += event.relative.x
 		#rotation_degrees.x += event.relative.y
 		rotate_y(-deg_to_rad(event.relative.x * SENSITIVITY))
